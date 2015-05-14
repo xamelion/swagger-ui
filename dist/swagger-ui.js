@@ -1,6 +1,6 @@
 /**
  * swagger-ui - Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API
- * @version v2.1.2-M2
+ * @version v2.1.4-M2
  * @link http://swagger.io
  * @license Apache 2.0
  */
@@ -523,7 +523,11 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
         result += defaultValue + '</textarea>';
     } else {
-        result = '<input class=\'parameter\'' + (param.required ? ' class=\'required\'' : '') + ' minlength=\'' + (param.required ? 1 : 0) + '\'';
+        var parameterClass = 'parameter';
+        if(param.required) {
+          parameterClass += ' required';
+        }
+        result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
         result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
@@ -20889,7 +20893,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       } else {
 
         // Default validator
-        if(window.location.protocol.startsWith('http')) {
+        if(window.location.protocol.indexOf('http') === 0) {
           this.model.validatorUrl = window.location.protocol + '//online.swagger.io/validator';
         }
       }
